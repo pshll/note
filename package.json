@@ -1,0 +1,16 @@
+{
+	"name": "note",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vuepress dev docs --open --host localhost --port 8080 --temp .temp",
+		"build": "vuepress build docs"
+	},
+	"repository": "git@github.com:pshll/note.git",
+	"author": "paddy.pang <646232417@qq.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"vuepress": "^1.9.7",
+		"vuepress-plugin-mermaidjs": "^2.0.0-beta.2"
+	}
+}

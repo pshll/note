@@ -1,0 +1,15 @@
+# npm
+node_modules
+.temp
+
+# yarn
+yarn.lock
+yarn-error.log
+
+# vscode
+.vscode
+
+# vuepress
+docs/.vuepress/.cache
+docs/.vuepress/.temp
+docs/.vuepress/dist
