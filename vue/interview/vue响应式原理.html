@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>讲一下Vue的响应式原理</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.538b5d19.css" as="style"><link rel="preload" href="/note/assets/js/app.06f83a65.js" as="script"><link rel="preload" href="/note/assets/js/2.63c13255.js" as="script"><link rel="preload" href="/note/assets/js/9.1c6f8bcb.js" as="script"><link rel="prefetch" href="/note/assets/js/10.342802d9.js"><link rel="prefetch" href="/note/assets/js/3.4618c02c.js"><link rel="prefetch" href="/note/assets/js/4.94733d25.js"><link rel="prefetch" href="/note/assets/js/5.2ea06e07.js"><link rel="prefetch" href="/note/assets/js/6.8d81f0ec.js"><link rel="prefetch" href="/note/assets/js/7.f4ac6e79.js"><link rel="prefetch" href="/note/assets/js/8.43df8e2f.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.538b5d19.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/note/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/note/" class="nav-link">
+  home
+</a></div><div class="nav-item"><a href="/note/vue/" class="nav-link router-link-active">
+  mini-vue
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/note/" class="nav-link">
+  home
+</a></div><div class="nav-item"><a href="/note/vue/" class="nav-link router-link-active">
+  mini-vue
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>vue面试题</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/note/vue/interview/vue响应式原理.html" class="active sidebar-link">vue面试题</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/note/vue/interview/vue响应式原理.html#vue2的数据劫持" class="sidebar-link">vue2的数据劫持</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>mini-vue</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="讲一下vue的响应式原理"><a href="#讲一下vue的响应式原理" class="header-anchor">#</a> 讲一下Vue的响应式原理</h1> <ol><li>所谓数据响应式就是<code>能够使数据变化可以被检测并对这种变化做出相应的机制</code>。</li> <li>MVVM框架中要解决的一个核心问题是连接数据层和视图层，通过<code>数据驱动</code>应用，数据变化，视图更新，要做到这点就需要对数据响应式处理，这样一旦数据发生变化就可以立即做出更新处理。</li> <li>以vue为例说明，通过数据响应式加上虚拟DOM和patch算法，开发人员只需要操作数据，关心业务，完全不用接触繁琐的DOM操作，从而大大提升开发效率，降低开发难度。</li> <li>vue2中的数据响应式会根据数据类型来做不同处理，如果是<code>对象则采用Object.defineProperty()的方式定义数据拦截，当数据被访问或发生变化时，我们感知并做出响应了；如果是数组则如通过覆盖数组对象原型的7个变更方法</code>，使这些方法可以额外的做更新通知，从而做出响应。这种机制很好的解决了数据相应化的问题，但实际使用中也存在一些缺点：比如初始化的递归便利会造成性能损失；新增或删除属性时需要用户使用Vue.set|delete这样特殊的api才能生效；对于es6中新产生的Map、Set这些数据结构不支持等问题。</li> <li>为了解决这些问题，vue3重新编写了这一部分的实现：利用ES6的Proxy代理要响应化的数据，它有很多好处，编程体验是一致的，不需要使用特殊api，初始化性能和内存消耗都得到了大幅改善；另外由于响应化的实现代码抽取为独立的reactivity包，使得我们可以更灵活的使用它，第三方的扩展开发起来更加灵活了。</li></ol> <h2 id="vue2的数据劫持"><a href="#vue2的数据劫持" class="header-anchor">#</a> vue2的数据劫持</h2> <p>对象：<code>Object.defineProperty()</code>这个方法去定义数据拦截。
+数组：由于<code>Object.defineProperty()</code>对数组下标无法劫持，所以在vue2中是采用改写数组的7种方法<code>push、pop、shift、unshift、splice、sort、reverse</code>（这7种方法会改变原数组）</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/note/vue/mini-vue/mini-vue学习笔记.html">
+        mini-vue学习记录
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/note/assets/js/app.06f83a65.js" defer></script><script src="/note/assets/js/2.63c13255.js" defer></script><script src="/note/assets/js/9.1c6f8bcb.js" defer></script>
+  </body>
+</html>

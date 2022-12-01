@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>mini-vue 学习笔记</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.538b5d19.css" as="style"><link rel="preload" href="/note/assets/js/app.06f83a65.js" as="script"><link rel="preload" href="/note/assets/js/2.63c13255.js" as="script"><link rel="preload" href="/note/assets/js/10.342802d9.js" as="script"><link rel="prefetch" href="/note/assets/js/3.4618c02c.js"><link rel="prefetch" href="/note/assets/js/4.94733d25.js"><link rel="prefetch" href="/note/assets/js/5.2ea06e07.js"><link rel="prefetch" href="/note/assets/js/6.8d81f0ec.js"><link rel="prefetch" href="/note/assets/js/7.f4ac6e79.js"><link rel="prefetch" href="/note/assets/js/8.43df8e2f.js"><link rel="prefetch" href="/note/assets/js/9.1c6f8bcb.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.538b5d19.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/note/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/note/" class="nav-link">
+  home
+</a></div><div class="nav-item"><a href="/note/vue/" class="nav-link router-link-active">
+  mini-vue
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/note/" class="nav-link">
+  home
+</a></div><div class="nav-item"><a href="/note/vue/" class="nav-link router-link-active">
+  mini-vue
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>vue面试题</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>mini-vue</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/note/vue/mini-vue/mini-vue学习笔记.html" class="active sidebar-link">mini-vue学习记录</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/note/vue/mini-vue/mini-vue学习笔记.html#nexttick" class="sidebar-link">nextTick</a></li><li class="sidebar-sub-header"><a href="/note/vue/mini-vue/mini-vue学习笔记.html#编译模块" class="sidebar-link">编译模块</a></li><li class="sidebar-sub-header"><a href="/note/vue/mini-vue/mini-vue学习笔记.html#parse" class="sidebar-link">parse</a></li><li class="sidebar-sub-header"><a href="/note/vue/mini-vue/mini-vue学习笔记.html#有限状态机" class="sidebar-link">有限状态机</a></li><li class="sidebar-sub-header"><a href="/note/vue/mini-vue/mini-vue学习笔记.html#transform" class="sidebar-link">transform</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="mini-vue-学习笔记"><a href="#mini-vue-学习笔记" class="header-anchor">#</a> mini-vue 学习笔记</h1> <h2 id="nexttick"><a href="#nexttick" class="header-anchor">#</a> nextTick</h2> <h3 id="nexttick是什么"><a href="#nexttick是什么" class="header-anchor">#</a> nextTick是什么？</h3> <blockquote><p><code>nextTick()</code> 等待下一次 DOM 更新刷新的工具方法。</p> <p>通常操作数据更新后的DOM</p> <p>当你在 Vue 中更改响应式状态时，最终的 DOM 更新并不是同步生效的，而是由 Vue 将它们缓存在一个队列中，直到下一个“tick”才一起执行。<strong>这样是为了确保每个组件无论发生多少状态改变，都仅执行一次更新。</strong></p></blockquote> <blockquote><p><code>nextTick()</code> 可以在状态改变后立即使用，以等待 DOM 更新完成。你可以传递一个<strong>回调函数</strong>作为参数，或者 <strong>await 返回的 Promise</strong>。</p></blockquote> <h3 id="dom-更新时机"><a href="#dom-更新时机" class="header-anchor">#</a> DOM 更新时机</h3> <blockquote><p>当你更改响应式状态后，DOM 会自动更新。然而，你得注意 DOM 的更新并不是同步的。相反，Vue 将缓冲它们直到更新周期的 “下个时机” 以确保无论你进行了多少次状态更改，每个组件都只需要更新一次。</p> <p>ps: 在Vue中，状态都是默认深层响应式的。所以即使更改深层的对象或者数组的时候，也能确保能被检测到。(也可以创建浅层响应式对象shallowReactive、shallowRef等)。</p></blockquote> <h3 id="为何需要nexttick"><a href="#为何需要nexttick" class="header-anchor">#</a> 为何需要nextTick</h3> <p>例如下列代码</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">export</span> <span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">{</span>
+	<span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'App'</span><span class="token punctuation">,</span>
+	<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token function">h</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>
+			<span class="token function">h</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token literal-property property">onClick</span><span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>onClick <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'update'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			<span class="token function">h</span><span class="token punctuation">(</span><span class="token string">'p'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">count: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+		<span class="token punctuation">]</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span><span class="token punctuation">,</span>
+	<span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+		<span class="token keyword">function</span> <span class="token function">onClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'update'</span><span class="token punctuation">)</span>
+				count<span class="token punctuation">.</span>value <span class="token operator">=</span> i
+			<span class="token punctuation">}</span>
+			<span class="token comment">// nextTick前DOM上的数据还是未更新的数据</span>
+			console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>instance<span class="token punctuation">.</span>vnode<span class="token punctuation">.</span>el<span class="token punctuation">.</span>innerText<span class="token punctuation">)</span>
+
+			<span class="token comment">// nextTick两种用法</span>
+			<span class="token comment">// nextTick后DOM上的数据更新完成</span>
+			<span class="token comment">// await nextTick()</span>
+			<span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>instance<span class="token punctuation">.</span>vnode<span class="token punctuation">.</span>el<span class="token punctuation">.</span>innerText<span class="token punctuation">)</span>
+			<span class="token punctuation">}</span><span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">return</span> <span class="token punctuation">{</span>
+			count<span class="token punctuation">,</span>
+			onClick
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>在上面代码中，如果非异步更新DOM的话，<code>patch()</code>会执行100次，所以从性能方面考虑DOM会在下一个 <strong><code>tick</code></strong> 才更新</p> <h3 id="实现思路"><a href="#实现思路" class="header-anchor">#</a> 实现思路</h3> <p>创建一个队列(<code>queue</code>)去收集同步任务(<code>SchedulerJob</code>)，
+当遇到微任务的时候把队列中的任务取出执行</p> <p>核心代码如下：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// 在 runtime-core/scheduler.ts 中</span>
+<span class="token keyword">const</span> <span class="token literal-property property">queue</span><span class="token operator">:</span> any<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token keyword">const</span> resolvedPromise <span class="token operator">=</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> Promise<span class="token operator">&lt;</span>any<span class="token operator">&gt;</span>
+<span class="token keyword">let</span> <span class="token literal-property property">currentFlushPromise</span><span class="token operator">:</span> Promise<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token operator">&gt;</span> <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token keyword">null</span>
+
+<span class="token keyword">let</span> isFlushPending <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token keyword">let</span> isFlushing <span class="token operator">=</span> <span class="token boolean">false</span>
+
+<span class="token keyword">let</span> flushIndex <span class="token operator">=</span> <span class="token number">0</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token parameter">fn<span class="token operator">?</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// nextTick 只需要手动去执行下一个tick的方法即可</span>
+	<span class="token keyword">const</span> p <span class="token operator">=</span> currentFlushPromise <span class="token operator">||</span> resolvedPromise
+	<span class="token keyword">return</span> fn <span class="token operator">?</span> p<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span> <span class="token operator">:</span> p
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">queueJobs</span><span class="token punctuation">(</span><span class="token parameter">job</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// 防止重新添加任务</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>queue<span class="token punctuation">.</span>length <span class="token operator">||</span> <span class="token operator">!</span>queue<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>job<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">if</span> <span class="token punctuation">(</span>job<span class="token punctuation">.</span>id <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			queue<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>job<span class="token punctuation">)</span>
+		<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+			queue<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token function">findInsertionIndex</span><span class="token punctuation">(</span>job<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> job<span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
+		<span class="token comment">// 清空队列</span>
+		<span class="token function">queueFlush</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">queueFlush</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>isFlushPending<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		isFlushPending <span class="token operator">=</span> <span class="token boolean">true</span>
+		<span class="token comment">// 以Promise的方式执行，即在下一个`tick`中执行</span>
+		currentFlushPromise <span class="token operator">=</span> resolvedPromise<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>flushJobs<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// 执行队列中的jobs</span>
+<span class="token keyword">function</span> <span class="token function">flushJobs</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	isFlushPending <span class="token operator">=</span> <span class="token boolean">false</span>
+	isFlushing <span class="token operator">=</span> <span class="token boolean">true</span>
+
+	queue<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>comparator<span class="token punctuation">)</span>
+
+	<span class="token comment">// TODO 错误处理</span>
+	<span class="token keyword">try</span> <span class="token punctuation">{</span>
+		<span class="token keyword">for</span> <span class="token punctuation">(</span>flushIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> flushIndex <span class="token operator">&lt;</span> queue<span class="token punctuation">.</span>length<span class="token punctuation">;</span> flushIndex<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword">const</span> job <span class="token operator">=</span> queue<span class="token punctuation">[</span>flushIndex<span class="token punctuation">]</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span>job<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token function">job</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+		<span class="token comment">// 执行完后reset</span>
+		flushIndex <span class="token operator">=</span> <span class="token number">0</span>
+		queue<span class="token punctuation">.</span>length <span class="token operator">=</span> <span class="token number">0</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><h2 id="编译模块"><a href="#编译模块" class="header-anchor">#</a> 编译模块</h2> <p>Vue 底层是通过虚拟 DOM 来进行渲染的，那么 <code>.vue</code> 文件的模板到底是怎么转换成虚拟 DOM 的呢？</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// 需要编译器</span>
+<span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	<span class="token literal-property property">template</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;div&gt;{{ hi }}&lt;/div&gt;</span><span class="token template-punctuation string">`</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span>
+	<span class="token function">render</span> <span class="token punctuation">(</span><span class="token parameter">h</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token function">h</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>hi<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">)</span>
+</code></pre></div><p>简单来说，就是如果使用了<code>vue-loader</code>，就可以使用<code>vue.runtime.min.js</code>，将模板编译过程交过给<code>vue-loader</code>，如果浏览器直接通过<code>&lt;script&gt;</code>引入Vue，需要使用<code>vue.min.js</code>，在运行的时候编译模板。</p> <h3 id="编译步骤"><a href="#编译步骤" class="header-anchor">#</a> 编译步骤</h3> <ol><li>parse	生成AST(抽象语法树) ==&gt; 可以在<code>https://astexplorer.net/</code>看一下AST树</li> <li>transform	CRUD等操作</li> <li>codegen	通过AST去拼接字符串生成<code>render()</code> <code>https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2PkhlbGxvIFdvcmxkPC9kaXY+Iiwib3B0aW9ucyI6e319</code>这里是Vue codegen后生成的函数</li></ol> <h3 id="源码位置"><a href="#源码位置" class="header-anchor">#</a> 源码位置</h3> <p>主要是<code>compiler-core</code>和<code>compiler-dom</code></p> <h2 id="parse"><a href="#parse" class="header-anchor">#</a> parse</h2> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">baseParse</span><span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// 上下文对象</span>
+	<span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token function">createParserContext</span><span class="token punctuation">(</span>content<span class="token punctuation">,</span> options<span class="token punctuation">)</span>
+	<span class="token keyword">const</span> start <span class="token operator">=</span> <span class="token function">getCursor</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token function">createRoot</span><span class="token punctuation">(</span>
+		<span class="token function">parseChildren</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> TextModes<span class="token punctuation">.</span><span class="token constant">DATA</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    	<span class="token function">getSelection</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> start<span class="token punctuation">)</span>
+	<span class="token punctuation">)</span>
+<span class="token punctuation">}</span> 
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">createRoot</span><span class="token punctuation">(</span>
+  <span class="token parameter"><span class="token literal-property property">children</span><span class="token operator">:</span> TemplateChildNode<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  loc <span class="token operator">=</span> locStub</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> RootNode <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">type</span><span class="token operator">:</span> NodeTypes<span class="token punctuation">.</span><span class="token constant">ROOT</span><span class="token punctuation">,</span>
+    children<span class="token punctuation">,</span>
+    <span class="token literal-property property">helpers</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">directives</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">hoists</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">imports</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">cached</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">temps</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">codegenNode</span><span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+    loc
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>在<code>baseParse</code>创建了一个<code>context上下文对象</code>当成全局对象给各个函数来处理，处理string的时候采用处理完就往前推进的方式，生成AST(抽象语法树)</p> <h2 id="有限状态机"><a href="#有限状态机" class="header-anchor">#</a> 有限状态机</h2> <p><strong>读取</strong>一组输入然后根据这些输入来更改为不同的状态</p> <p>下面流程图需要用<code>markdown</code>中的<code>mermaid</code>插件解析</p> <div class="language-mermaid extra-class"><pre class="language-mermaid"><code><span class="token keyword">flowchart</span> LR<span class="token punctuation">;</span>
+	start<span class="token text string">(start)</span> <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">x</span> <span class="token arrow operator">--&gt;</span></span> state1<span class="token text string">[state1]</span>
+	start<span class="token text string">(start)</span> <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">y</span> <span class="token arrow operator">--&gt;</span></span> state2<span class="token text string">[state2]</span>
+</code></pre></div><p>有限状态机在<code>parse</code>中的运用机制也是类似</p> <div class="language-mermaid extra-class"><pre class="language-mermaid"><code><span class="token keyword">flowchart</span> LR<span class="token punctuation">;</span>
+	Start<span class="token text string">((Start))</span> <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">&quot;{{&quot;</span> <span class="token arrow operator">--&gt;</span></span> interpolation<span class="token text string">(&quot;interpolation(插值运算符)&quot;)</span> <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">&quot;}}&quot;</span> <span class="token arrow operator">--&gt;</span></span> End<span class="token text string">((End))</span>
+	<span class="token keyword">End</span> <span class="token arrow operator">--&gt;</span> Start
+	Start<span class="token text string">((Start))</span> <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">&quot;/^&lt;\/?([a-z]*)/i&quot;</span> <span class="token arrow operator">--&gt;</span></span> parseElement<span class="token text string">(&quot;parseElement(判断标签)&quot;)</span>
+	parseElement <span class="token arrow operator">--&gt;</span> parseTag<span class="token text string">(&quot;parseTag&quot;)</span> <span class="token arrow operator">--&gt;</span> parseChildren<span class="token text string">(&quot;parseChildren(递归调用)&quot;)</span>
+	parseChildren <span class="token arrow operator">--&gt;</span> End
+	Start <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">其他情况</span> <span class="token arrow operator">--&gt;</span></span> parseText<span class="token text string">(&quot;parseText&quot;)</span> <span class="token arrow operator">--&gt;</span> End
+	Start <span class="token inter-arrow-label"><span class="token arrow-head arrow operator">--</span> <span class="token label property">无其余标签 &amp;&amp; source无值</span> <span class="token arrow operator">--&gt;</span></span> End
+</code></pre></div><p>vue3源码中的<code>parseChildren</code>方法也有给出对应(HTML标签)的状态扭转的文档<code>https://html.spec.whatwg.org/multipage/parsing.html</code></p> <h2 id="transform"><a href="#transform" class="header-anchor">#</a> transform</h2> <p>遍历AST树做CRUD等操作</p> <p>遍历树有两种方式，深度优先搜索(DFS)和广度优先搜索(BFS)</p> <p>这里采用的是深度优先搜索</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/note/vue/interview/vue响应式原理.html" class="prev">
+        vue面试题
+      </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/note/assets/js/app.06f83a65.js" defer></script><script src="/note/assets/js/2.63c13255.js" defer></script><script src="/note/assets/js/10.342802d9.js" defer></script>
+  </body>
+</html>
